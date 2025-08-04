@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Tool Box</title>
+    
+    <!-- CONFIGURAÇÃO PWA (APP INSTALÁVEL) -->
+    <meta name="theme-color" content="#00a8ff"/>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="logo-192.png">
+    
+    <!-- ARQUIVO DE ESTILO -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- ÍCONES -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- BIBLIOTECAS JAVASCRIPT (AS "BATERIAS" ) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/epub.js/0.3.93/epub.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+</head>
+<body>
+
+    <!-- TELA DE ENTRADA -->
+    <div id="welcome-screen">
+        <div class="welcome-content">
+            <img src="logo.png" alt="Logo My Tool Box" class="welcome-logo">
+            <h1>Arquivos Flash</h1>
+            <button id="enter-app-btn">Entrar no App</button>
+        </div>
+    </div>
+
+    <!-- APLICAÇÃO PRINCIPAL (INICIALMENTE OCULTA ) -->
+    <div id="main-app" class="hidden">
+        <header>
+            <button id="menu-toggle" class="menu-toggle-btn"><i class="fas fa-bars"></i></button>
+            <div class="logo-container">
+                <img src="logo.png" alt="Logo My Tool Box" id="main-logo">
+                <h1 class="app-title">
+                    <span class="title-my">My</span>
+                    <span class="title-tool">Tool</span>
+                    <span class="title-box">Box</span>
+                </h1>
+            </div>
+        </header>
+
+        <div class="app-body">
+            <!-- MENU LATERAL -->
+            <nav id="sidebar">
+                <div class="api-section">
+                    <label for="api-key">Chave de API (IA):</label>
+                    <input type="password" id="api-key" placeholder="Insira sua chave de API">
+                    <button id="save-api-key">Salvar</button>
+                </div>
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-tab="editor-ia"><i class="fas fa-magic-wand-sparkles"></i> Editor & IA</button>
+                    <button class="tab-btn" data-tab="image-tools"><i class="fas fa-image"></i> Ferramentas de Imagem</button>
+                    <button class="tab-btn" data-tab="video-audio-tools"><i class="fas fa-video"></i> Áudio & Vídeo</button>
+                    <button class="tab-btn" data-tab="ebook-tools"><i class="fas fa-book-open"></i> Publicação (Ebook)</button>
+                    <button class="tab-btn" data-tab="file-utils"><i class="fas fa-file-zipper"></i> Utilitários de Arquivos</button>
+                    <button class="tab-btn" data-tab="dev-tools"><i class="fas fa-code"></i> Ferramentas Dev</button>
+                    <button class="tab-btn" data-tab="whats-new"><i class="fas fa-info-circle"></i> O que há de novo?</button>
+                </div>
+            </nav>
+
+            <!-- CONTEÚDO PRINCIPAL -->
+            <main id="main-content">
+                <!-- Aba 1: Editor & IA -->
+                <div id="editor-ia" class="tab-content active">
+                    <div class="editor-area">
+                        <textarea id="main-textarea" placeholder="Comece a escrever aqui..."></textarea>
+                        <div class="save-section">
+                            <input type="text" id="file-name" placeholder="Nome do arquivo">
+                            <select id="file-type">
+                                <option value="txt">.txt</option>
+                                <option value="html">.html</option>
+                                <option value="md">.md</option>
+                                <option value="json">.json</option>
+                            </select>
+                            <button id="save-file-btn"><i class="fas fa-save"></i> Salvar</button>
+                        </div>
+                    </div>
+                    <div class="ia-tools-menu">
+                        <h3><i class="fas fa-robot"></i> Ferramentas de IA</h3>
+                        <div class="ia-category">
+                            <h4>Revisão de Texto</h4>
+                            <button class="ia-btn" data-action="review">Revisar Texto ✨</button>
+                            <button class="ia-btn" data-action="critique">Revisão e Crítica ✨</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Aba 2: Ferramentas de Imagem -->
+                <div id="image-tools" class="tab-content">
+                    <h2><i class="fas fa-image"></i> Ferramentas de Imagem</h2>
+                    <div class="tool-card">
+                        <h3>Analisador de Metadados de Imagem</h3>
+                        <p>Extraia ou remova completamente os metadados (EXIF) de suas imagens.</p>
+                        <input type="file" class="file-input" accept="image/*">
+                        <button class="tool-btn">Extrair Metadados</button>
+                        <button class="tool-btn">Limpar Metadados</button>
+                    </div>
+                </div>
+
+                <!-- Aba 3: Ferramentas de Áudio & Vídeo -->
+                <div id="video-audio-tools" class="tab-content">
+                    <h2><i class="fas fa-video"></i> Ferramentas de Áudio & Vídeo</h2>
+                    <div class="tool-card">
+                        <h3>Analisador de Metadados de Vídeo</h3>
+                        <p>Extraia ou remova metadados de vídeos para proteger sua privacidade ou reutilizar conteúdo.</p>
+                        <input type="file" class="file-input" accept="video/*">
+                        <button class="tool-btn">Extrair Metadados</button>
+                        <button class="tool-btn">Limpar Metadados</button>
+                    </div>
+                </div>
+                
+                <!-- Aba 4: Publicação (Ebook) -->
+                <div id="ebook-tools" class="tab-content">
+                    <h2><i class="fas fa-book-open"></i> Leitor de Ebook (EPUB)</h2>
+                    <div class="tool-card">
+                        <h3>Abrir e Ler um Ebook</h3>
+                        <p>Selecione um arquivo .epub do seu dispositivo para começar a leitura.</p>
+                        <input type="file" id="epub-input" class="file-input" accept=".epub">
+                        <div id="epub-viewer"></div>
+                    </div>
+                </div>
+
+                <!-- Aba 5: Utilitários de Arquivos -->
+                <div id="file-utils" class="tab-content">
+                    <h2><i class="fas fa-file-zipper"></i> Descompactador de ZIP</h2>
+                    <div class="tool-card">
+                        <h3>Extrair Arquivos de um .ZIP</h3>
+                        <p>Selecione um arquivo .zip para ver e baixar seu conteúdo.</p>
+                        <input type="file" id="zip-input" class="file-input" accept=".zip">
+                        <ul id="zip-contents"></ul>
+                    </div>
+                </div>
+
+                <!-- Aba 6: Ferramentas Dev -->
+                <div id="dev-tools" class="tab-content">
+                    <h2><i class="fas fa-code"></i> Ferramentas para Desenvolvedores</h2>
+                    <!-- Adicionar ferramentas de dev aqui -->
+                </div>
+
+                <!-- Aba 7: O que há de novo? -->
+                <div id="whats-new" class="tab-content">
+                    <h2><i class="fas fa-info-circle"></i> O que há de novo no My Tool Box?</h2>
+                    <div class="feature-list">
+                        <h3><i class="fas fa-magic-wand-sparkles"></i> Editor & IA</h3>
+                        <ul>
+                            <li>Revisão e crítica de textos com IA.</li>
+                            <li>Geração de artigos, roteiros e ideias.</li>
+                        </ul>
+                        <h3><i class="fas fa-image"></i> Ferramentas de Imagem</h3>
+                        <ul>
+                            <li><strong>Analisador de Metadados:</strong> Extraia ou limpe dados de imagens.</li>
+                        </ul>
+                        <h3><i class="fas fa-video"></i> Áudio & Vídeo</h3>
+                        <ul>
+                            <li><strong>Analisador de Metadados:</strong> Extraia ou limpe dados de vídeos.</li>
+                        </ul>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <footer>
+            <a href="http://www.edulima.site" target="_blank">www.edulima.site</a>
+            <span>2025 Eco Hub Center todos os direitos reservados - desenvolvido por Edu Lima.</span>
+        </footer>
+
+        <!-- OVERLAY DE LOADING -->
+        <div id="loading-overlay" class="hidden">
+            <div class="spinner"></div>
+            <p>Processando...</p>
+        </div>
+    </div>
+
+    <!-- REGISTRO DO SERVICE WORKER (PARA PWA ) -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').then(registration => {
+            console.log('ServiceWorker registrado com sucesso: ', registration.scope);
+          }, err => {
+            console.log('Registro do ServiceWorker falhou: ', err);
+          });
+        });
+      }
+    </script>
+    
+    <!-- SCRIPT PRINCIPAL DO APP -->
+    <script src="script.js"></script>
+</body>
+                                                                                     </html>
+  
