@@ -5,202 +5,159 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Tool Box</title>
     
-    <!-- CONFIGURAÇÃO PWA (APP INSTALÁVEL) -->
     <meta name="theme-color" content="#00a8ff"/>
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="logo-192.png">
     
-    <!-- ARQUIVO DE ESTILO -->
     <link rel="stylesheet" href="style.css">
-    
-    <!-- ÍCONES -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <!-- BIBLIOTECAS JAVASCRIPT -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/epub.js/0.3.93/epub.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-
 </head>
 <body>
+    <!-- Fundo Animado Global -->
+    <div id="animated-background"></div>
 
-    <!-- TELA DE ENTRADA -->
-    <div id="welcome-screen">
+    <!-- Tela de Entrada -->
+    <div id="welcome-screen" class="app-view active">
         <div class="welcome-content">
             <img src="logo.png" alt="Logo My Tool Box" class="welcome-logo">
-            <h1>Arquivos Flash</h1>
-            <button id="enter-app-btn">Entrar no App</button>
+            <h1 class="app-title-main">
+                <span class="title-my">My</span>
+                <span class="title-tool">Tool</span>
+                <span class="title-box">Box</span>
+            </h1>
+            <button id="enter-app-btn" class="tech-btn"><span>Entrar no App</span></button>
         </div>
     </div>
 
-    <!-- APLICAÇÃO PRINCIPAL -->
+    <!-- Aplicação Principal (Inicialmente Oculta ) -->
     <div id="main-app" class="hidden">
         <header>
+            <div id="header-banner"></div>
             <button id="menu-toggle" class="menu-toggle-btn"><i class="fas fa-bars"></i></button>
-            <div class="logo-container">
-                <img src="logo.png" alt="Logo My Tool Box" id="main-logo">
-                <h1 class="app-title">
-                    <span class="title-my">My</span>
-                    <span class="title-tool">Tool</span>
-                    <span class="title-box">Box</span>
-                </h1>
-            </div>
+            <button id="back-to-dashboard-btn" class="hidden"><i class="fas fa-arrow-left"></i> Voltar</button>
         </header>
 
         <div class="app-body">
-            <!-- MENU LATERAL -->
+            <!-- Menu Lateral com Submenus -->
             <nav id="sidebar">
-                <div class="api-section">
-                    <label for="api-key">Chave de API (IA ):</label>
-                    <input type="password" id="api-key" placeholder="Insira sua chave de API">
-                    <button id="save-api-key">Salvar</button>
+                <div class="sidebar-content">
+                    <div class="accordion-item">
+                        <button class="accordion-header"><i class="fas fa-home"></i> Dashboard</button>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header"><i class="fas fa-magic-wand-sparkles"></i> Editor & IA</button>
+                        <div class="accordion-content">
+                            <a href="#" class="tool-link" data-view="view-editor-ia">Editor Principal</a>
+                            <a href="#" class="tool-link" data-view="view-translator">Tradutor de Texto</a>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header"><i class="fas fa-microphone-alt"></i> Voz & Áudio</button>
+                        <div class="accordion-content">
+                            <a href="#" class="tool-link" data-view="view-speech-to-text">Fala para Texto</a>
+                            <a href="#" class="tool-link" data-view="view-text-to-speech">Ler em Voz Alta</a>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header"><i class="fas fa-image"></i> Imagem & Design</button>
+                        <div class="accordion-content">
+                            <a href="#" class="tool-link" data-view="view-cover-3d">Gerador de Capa 3D</a>
+                            <a href="#" class="tool-link" data-view="view-bg-remover">Removedor de Fundo</a>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header"><i class="fas fa-book-open"></i> Publicação</button>
+                        <div class="accordion-content">
+                            <a href="#" class="tool-link" data-view="view-epub-creator">Criador de EPUB</a>
+                            <a href="#" class="tool-link" data-view="view-epub-reader">Leitor de EPUB</a>
+                        </div>
+                    </div>
+                     <div class="accordion-item">
+                        <button class="accordion-header"><i class="fas fa-info-circle"></i> Guia de Ferramentas</button>
+                    </div>
                 </div>
-                <div class="tab-buttons">
-                    <button class="tab-btn active" data-tab="editor-ia"><i class="fas fa-magic-wand-sparkles"></i> Editor & IA</button>
-                    <button class="tab-btn" data-tab="image-tools"><i class="fas fa-image"></i> Ferramentas de Imagem</button>
-                    <button class="tab-btn" data-tab="video-audio-tools"><i class="fas fa-video"></i> Áudio & Vídeo</button>
-                    <button class="tab-btn" data-tab="ebook-tools"><i class="fas fa-book-open"></i> Publicação (Ebook)</button>
-                    <button class="tab-btn" data-tab="file-utils"><i class="fas fa-file-zipper"></i> Utilitários de Arquivos</button>
-                    <button class="tab-btn" data-tab="dev-tools"><i class="fas fa-code"></i> Ferramentas Dev</button>
-                    <button class="tab-btn" data-tab="whats-new"><i class="fas fa-info-circle"></i> O que há de novo?</button>
+                <div class="api-section">
+                    <input type="password" id="api-key" placeholder="Sua Chave de API">
+                    <button id="save-api-key">Salvar</button>
                 </div>
             </nav>
 
-            <!-- CONTEÚDO PRINCIPAL -->
+            <!-- Conteúdo Principal Dinâmico -->
             <main id="main-content">
-                <!-- Aba 1: Editor & IA -->
-                <div id="editor-ia" class="tab-content active">
-                    <div class="editor-area">
-                        <textarea id="main-textarea" placeholder="Comece a escrever aqui..."></textarea>
-                        <div class="save-section">
-                            <input type="text" id="file-name" placeholder="Nome do arquivo">
-                            <select id="file-type">
-                                <option value="txt">.txt</option>
-                                <option value="html">.html</option>
-                                <option value="md">.md</option>
-                                <option value="json">.json</option>
-                            </select>
-                            <button id="save-file-btn"><i class="fas fa-save"></i> Salvar</button>
+                <!-- 1. Dashboard (Página Principal) -->
+                <div id="view-dashboard" class="app-view active">
+                    <div class="dashboard-grid">
+                        <div class="dashboard-card" data-view="view-editor-ia">
+                            <i class="fas fa-pencil-alt"></i>
+                            <h3>Editor & IA</h3>
+                            <p>Escreva, revise e otimize seus textos com inteligência artificial.</p>
                         </div>
-                    </div>
-                    <div class="ia-tools-menu">
-                        <h3><i class="fas fa-robot"></i> Ferramentas de IA</h3>
-                        <div class="ia-category">
-                            <h4>Revisão de Texto</h4>
-                            <button class="ia-btn" data-action="review">Revisar Texto ✨</button>
-                            <button class="ia-btn" data-action="critique">Revisão e Crítica ✨</button>
+                        <div class="dashboard-card" data-view="view-speech-to-text">
+                            <i class="fas fa-microphone-alt"></i>
+                            <h3>Fala para Texto</h3>
+                            <p>Dite suas ideias e transforme sua voz em texto instantaneamente.</p>
                         </div>
-                        <div class="ia-category">
-                            <h4>Criação de Conteúdo</h4>
-                            <button class="ia-btn" data-action="summarize">Resumir Texto ✨</button>
-                            <button class="ia-btn" data-action="continue">Continuar Texto ✨</button>
-                            <button class="ia-btn" data-action="ideas">Gerar Ideias ✨</button>
+                        <div class="dashboard-card" data-view="view-cover-3d">
+                            <i class="fas fa-cube"></i>
+                            <h3>Gerador de Capa 3D</h3>
+                            <p>Crie mockups 3D profissionais para seus ebooks e produtos.</p>
                         </div>
-                        <div class="ia-category">
-                            <h4>Otimização de Texto</h4>
-                            <button class="ia-btn" data-action="paraphrase">Parafrasear Seleção ✨</button>
-                            <button class="ia-btn" data-action="simplify">Simplificar Texto ✨</button>
-                            <button class="ia-btn" data-action="keywords">Extrair Palavras-Chave ✨</button>
+                        <div class="dashboard-card" data-view="view-epub-creator">
+                            <i class="fas fa-book"></i>
+                            <h3>Criador de EPUB</h3>
+                            <p>Transforme seus textos e capas em ebooks completos.</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Aba 2: Ferramentas de Imagem -->
-                <div id="image-tools" class="tab-content">
-                    <h2><i class="fas fa-image"></i> Ferramentas de Imagem</h2>
-                    <div class="tool-card">
-                        <h3>Analisador de Metadados</h3>
-                        <p>Extraia ou remova dados de suas imagens.</p>
-                        <input type="file" class="file-input" accept="image/*">
-                        <button class="tool-btn">Extrair Metadados</button>
-                        <button class="tool-btn">Limpar Metadados</button>
-                    </div>
-                    <div class="tool-card">
-                        <h3>Removedor de Fundo</h3>
-                        <p>Remova o fundo de qualquer imagem com um clique.</p>
-                        <input type="file" class="file-input" accept="image/*">
-                        <button class="tool-btn">Remover Fundo</button>
-                    </div>
+                <!-- 2. Tela da Ferramenta: Editor & IA -->
+                <div id="view-editor-ia" class="app-view">
+                    <!-- Interface do Editor de Texto e botões de IA -->
                 </div>
 
-                <!-- Aba 3: Ferramentas de Áudio & Vídeo -->
-                <div id="video-audio-tools" class="tab-content">
-                    <h2><i class="fas fa-video"></i> Ferramentas de Áudio & Vídeo</h2>
+                <!-- 3. Tela da Ferramenta: Fala para Texto -->
+                <div id="view-speech-to-text" class="app-view">
+                    <h2><i class="fas fa-microphone-alt"></i> Fala para Texto</h2>
                     <div class="tool-card">
-                        <h3>Fala para Texto (Ditado)</h3>
-                        <p>Clique em iniciar e comece a falar. O texto aparecerá abaixo.</p>
-                        <button class="tool-btn" id="start-stt-btn"><i class="fas fa-microphone"></i> Iniciar Gravação</button>
-                        <button class="tool-btn" id="stop-stt-btn"><i class="fas fa-stop"></i> Parar</button>
-                        <textarea id="stt-textarea" placeholder="Seu texto gravado aparecerá aqui..." rows="8"></textarea>
-                    </div>
-                    <div class="tool-card">
-                        <h3>Analisador de Metadados de Vídeo</h3>
-                        <p>Extraia ou remova metadados de vídeos.</p>
-                        <input type="file" class="file-input" accept="video/*">
-                        <button class="tool-btn">Extrair Metadados</button>
-                        <button class="tool-btn">Limpar Metadados</button>
+                        <p>Clique em Iniciar/Pausar para controlar a gravação. O texto é adicionado continuamente.</p>
+                        <div class="stt-controls">
+                            <button id="stt-toggle-btn" class="tech-btn"><span><i class="fas fa-play"></i> Iniciar</span></button>
+                            <button id="stt-stop-btn" class="tech-btn"><span><i class="fas fa-stop"></i> Parar</span></button>
+                            <button id="stt-copy-btn" class="tech-btn"><span><i class="fas fa-copy"></i> Copiar</span></button>
+                            <button id="stt-save-btn" class="tech-btn"><span><i class="fas fa-save"></i> Salvar</span></button>
+                            <button id="stt-correct-btn" class="tech-btn"><span><i class="fas fa-magic"></i> Corrigir</span></button>
+                        </div>
+                        <textarea id="stt-textarea" placeholder="O texto transcrito aparecerá aqui..."></textarea>
                     </div>
                 </div>
                 
-                <!-- Aba 4: Publicação (Ebook) -->
-                <div id="ebook-tools" class="tab-content">
-                    <h2><i class="fas fa-book-open"></i> Leitor de Ebook (EPUB)</h2>
-                    <div class="tool-card">
-                        <h3>Abrir e Ler um Ebook</h3>
-                        <p>Selecione um arquivo .epub do seu dispositivo para começar a leitura.</p>
-                        <input type="file" id="epub-input" class="file-input" accept=".epub">
-                        <div id="epub-viewer"></div>
-                    </div>
-                </div>
+                <!-- Outras telas de ferramentas (placeholders para simplicidade) -->
+                <div id="view-translator" class="app-view"><h2>Tradutor</h2></div>
+                <div id="view-text-to-speech" class="app-view"><h2>Ler em Voz Alta</h2></div>
+                <div id="view-cover-3d" class="app-view"><h2>Gerador de Capa 3D</h2></div>
+                <div id="view-bg-remover" class="app-view"><h2>Removedor de Fundo</h2></div>
+                <div id="view-epub-creator" class="app-view"><h2>Criador de EPUB</h2></div>
+                <div id="view-epub-reader" class="app-view"><h2>Leitor de EPUB</h2></div>
 
-                <!-- Aba 5: Utilitários de Arquivos -->
-                <div id="file-utils" class="tab-content">
-                    <h2><i class="fas fa-file-zipper"></i> Descompactador de ZIP</h2>
-                    <div class="tool-card">
-                        <h3>Extrair Arquivos de um .ZIP</h3>
-                        <p>Selecione um arquivo .zip para ver e baixar seu conteúdo.</p>
-                        <input type="file" id="zip-input" class="file-input" accept=".zip">
-                        <ul id="zip-contents"></ul>
-                    </div>
-                </div>
-
-                <!-- Aba 6: Ferramentas Dev -->
-                <div id="dev-tools" class="tab-content">
-                    <h2><i class="fas fa-code"></i> Ferramentas para Desenvolvedores</h2>
-                    <div class="tool-card">
-                        <h3>Gerador de QR Code</h3>
-                        <p>Gere um QR Code a partir de qualquer texto ou URL.</p>
-                        <input type="text" id="qr-input" placeholder="Digite o texto ou URL">
-                        <button class="tool-btn">Gerar</button>
-                    </div>
-                </div>
-
-                <!-- Aba 7: O que há de novo? -->
-                <div id="whats-new" class="tab-content">
-                    <!-- Conteúdo da aba "O que há de novo?" -->
-                </div>
             </main>
         </div>
-
+        
         <footer>
             <a href="http://www.edulima.site" target="_blank">www.edulima.site</a>
             <span>2025 Eco Hub Center todos os direitos reservados - desenvolvido por Edu Lima.</span>
         </footer>
-
-        <div id="loading-overlay" class="hidden">
-            <div class="spinner"></div>
-            <p>Processando...</p>
-        </div>
     </div>
 
-    <script>
-      if ('serviceWorker' in navigator ) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js');
-        });
-      }
-    </script>
+    <div id="loading-overlay" class="hidden">
+        <div class="spinner"></div>
+        <p>Processando...</p>
+    </div>
+    
     <script src="script.js"></script>
 </body>
-    </html>
-    
+                                                 </html>
+                         
