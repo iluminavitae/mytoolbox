@@ -16,7 +16,7 @@
     <!-- ÍCONES -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <!-- BIBLIOTECAS JAVASCRIPT (AS "BATERIAS" ) -->
+    <!-- BIBLIOTECAS JAVASCRIPT -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/epub.js/0.3.93/epub.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
@@ -28,12 +28,12 @@
     <div id="welcome-screen">
         <div class="welcome-content">
             <img src="logo.png" alt="Logo My Tool Box" class="welcome-logo">
-            <h1>My Tool Box</h1>
+            <h1>Arquivos Flash</h1>
             <button id="enter-app-btn">Entrar no App</button>
         </div>
     </div>
 
-    <!-- APLICAÇÃO PRINCIPAL (INICIALMENTE OCULTA ) -->
+    <!-- APLICAÇÃO PRINCIPAL -->
     <div id="main-app" class="hidden">
         <header>
             <button id="menu-toggle" class="menu-toggle-btn"><i class="fas fa-bars"></i></button>
@@ -51,7 +51,7 @@
             <!-- MENU LATERAL -->
             <nav id="sidebar">
                 <div class="api-section">
-                    <label for="api-key">Chave de API (IA):</label>
+                    <label for="api-key">Chave de API (IA ):</label>
                     <input type="password" id="api-key" placeholder="Insira sua chave de API">
                     <button id="save-api-key">Salvar</button>
                 </div>
@@ -90,6 +90,18 @@
                             <button class="ia-btn" data-action="review">Revisar Texto ✨</button>
                             <button class="ia-btn" data-action="critique">Revisão e Crítica ✨</button>
                         </div>
+                        <div class="ia-category">
+                            <h4>Criação de Conteúdo</h4>
+                            <button class="ia-btn" data-action="summarize">Resumir Texto ✨</button>
+                            <button class="ia-btn" data-action="continue">Continuar Texto ✨</button>
+                            <button class="ia-btn" data-action="ideas">Gerar Ideias ✨</button>
+                        </div>
+                        <div class="ia-category">
+                            <h4>Otimização de Texto</h4>
+                            <button class="ia-btn" data-action="paraphrase">Parafrasear Seleção ✨</button>
+                            <button class="ia-btn" data-action="simplify">Simplificar Texto ✨</button>
+                            <button class="ia-btn" data-action="keywords">Extrair Palavras-Chave ✨</button>
+                        </div>
                     </div>
                 </div>
 
@@ -97,11 +109,17 @@
                 <div id="image-tools" class="tab-content">
                     <h2><i class="fas fa-image"></i> Ferramentas de Imagem</h2>
                     <div class="tool-card">
-                        <h3>Analisador de Metadados de Imagem</h3>
-                        <p>Extraia ou remova completamente os metadados (EXIF) de suas imagens.</p>
+                        <h3>Analisador de Metadados</h3>
+                        <p>Extraia ou remova dados de suas imagens.</p>
                         <input type="file" class="file-input" accept="image/*">
                         <button class="tool-btn">Extrair Metadados</button>
                         <button class="tool-btn">Limpar Metadados</button>
+                    </div>
+                    <div class="tool-card">
+                        <h3>Removedor de Fundo</h3>
+                        <p>Remova o fundo de qualquer imagem com um clique.</p>
+                        <input type="file" class="file-input" accept="image/*">
+                        <button class="tool-btn">Remover Fundo</button>
                     </div>
                 </div>
 
@@ -109,8 +127,15 @@
                 <div id="video-audio-tools" class="tab-content">
                     <h2><i class="fas fa-video"></i> Ferramentas de Áudio & Vídeo</h2>
                     <div class="tool-card">
+                        <h3>Fala para Texto (Ditado)</h3>
+                        <p>Clique em iniciar e comece a falar. O texto aparecerá abaixo.</p>
+                        <button class="tool-btn" id="start-stt-btn"><i class="fas fa-microphone"></i> Iniciar Gravação</button>
+                        <button class="tool-btn" id="stop-stt-btn"><i class="fas fa-stop"></i> Parar</button>
+                        <textarea id="stt-textarea" placeholder="Seu texto gravado aparecerá aqui..." rows="8"></textarea>
+                    </div>
+                    <div class="tool-card">
                         <h3>Analisador de Metadados de Vídeo</h3>
-                        <p>Extraia ou remova metadados de vídeos para proteger sua privacidade ou reutilizar conteúdo.</p>
+                        <p>Extraia ou remova metadados de vídeos.</p>
                         <input type="file" class="file-input" accept="video/*">
                         <button class="tool-btn">Extrair Metadados</button>
                         <button class="tool-btn">Limpar Metadados</button>
@@ -142,27 +167,17 @@
                 <!-- Aba 6: Ferramentas Dev -->
                 <div id="dev-tools" class="tab-content">
                     <h2><i class="fas fa-code"></i> Ferramentas para Desenvolvedores</h2>
-                    <!-- Adicionar ferramentas de dev aqui -->
+                    <div class="tool-card">
+                        <h3>Gerador de QR Code</h3>
+                        <p>Gere um QR Code a partir de qualquer texto ou URL.</p>
+                        <input type="text" id="qr-input" placeholder="Digite o texto ou URL">
+                        <button class="tool-btn">Gerar</button>
+                    </div>
                 </div>
 
                 <!-- Aba 7: O que há de novo? -->
                 <div id="whats-new" class="tab-content">
-                    <h2><i class="fas fa-info-circle"></i> O que há de novo no My Tool Box?</h2>
-                    <div class="feature-list">
-                        <h3><i class="fas fa-magic-wand-sparkles"></i> Editor & IA</h3>
-                        <ul>
-                            <li>Revisão e crítica de textos com IA.</li>
-                            <li>Geração de artigos, roteiros e ideias.</li>
-                        </ul>
-                        <h3><i class="fas fa-image"></i> Ferramentas de Imagem</h3>
-                        <ul>
-                            <li><strong>Analisador de Metadados:</strong> Extraia ou limpe dados de imagens.</li>
-                        </ul>
-                        <h3><i class="fas fa-video"></i> Áudio & Vídeo</h3>
-                        <ul>
-                            <li><strong>Analisador de Metadados:</strong> Extraia ou limpe dados de vídeos.</li>
-                        </ul>
-                    </div>
+                    <!-- Conteúdo da aba "O que há de novo?" -->
                 </div>
             </main>
         </div>
@@ -172,28 +187,20 @@
             <span>2025 Eco Hub Center todos os direitos reservados - desenvolvido por Edu Lima.</span>
         </footer>
 
-        <!-- OVERLAY DE LOADING -->
         <div id="loading-overlay" class="hidden">
             <div class="spinner"></div>
             <p>Processando...</p>
         </div>
     </div>
 
-    <!-- REGISTRO DO SERVICE WORKER (PARA PWA ) -->
     <script>
-      if ('serviceWorker' in navigator) {
+      if ('serviceWorker' in navigator ) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js').then(registration => {
-            console.log('ServiceWorker registrado com sucesso: ', registration.scope);
-          }, err => {
-            console.log('Registro do ServiceWorker falhou: ', err);
-          });
+          navigator.serviceWorker.register('/sw.js');
         });
       }
     </script>
-    
-    <!-- SCRIPT PRINCIPAL DO APP -->
     <script src="script.js"></script>
 </body>
-                                                                                     </html>
-  
+    </html>
+    
